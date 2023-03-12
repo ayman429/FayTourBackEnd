@@ -163,7 +163,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 # ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'http://localhost:8000/rest-auth/login/'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://localhost:8000/rest-auth/login/'
@@ -174,8 +176,9 @@ SITE_ID = 1
 LOGIN_URL = 'http://localhost:8000/rest-auth/login/'   # http://localhost:8000/rest-auth/login/
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'FayTourApp@gmail.com'
-EMAIL_HOST_PASSWORD = 'uyshqmbacjawkdfj'  # fayoum tour 2023
+EMAIL_HOST_PASSWORD = 'lkiqdwbmjxugpnps'  # fayoum tour 2023
 EMAIL_PORT = 587
