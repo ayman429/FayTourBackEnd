@@ -170,13 +170,13 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'http://127.0.0.1:8000/rest-auth/login/'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://127.0.0.1:8000/rest-auth/login/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'http://faytourapp.pythonanywhere.com/rest-auth/login/'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://faytourapp.pythonanywhere.com/rest-auth/login/'
 
 SITE_ID = 1
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-LOGIN_URL = 'http://127.0.0.1:8000/rest-auth/login/'   # http://localhost:8000/rest-auth/login/
+LOGIN_URL = 'http://faytourapp.pythonanywhere.com/rest-auth/login/'   # http://localhost:8000/rest-auth/login/
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True

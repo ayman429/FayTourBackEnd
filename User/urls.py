@@ -1,7 +1,12 @@
 from allauth.account.views import confirm_email
+# <<<<<<< HEAD
 # from django.conf.urls import url
 from django.urls import re_path as url
 # from django.urls import re_path
+# =======
+from django.urls import re_path as url
+
+# >>>>>>> 51f3c73ff9037e98cccb284f22fb1efced265469
 from django.contrib import admin
 from django.urls import path, include
 
