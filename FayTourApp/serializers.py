@@ -25,7 +25,7 @@ class TouristPlacesSerializer(serializers.ModelSerializer):
     class Meta:
         model = TouristPlaces
         fields = ['id','name','type','address','description','coordinatesX','coordinatesY','originalImage',
-                  'uploaded_images','video','images','no_of_ratings','avg_ratings','rate_one_by_one','user','created_by']
+                  'uploaded_images','images','no_of_ratings','avg_ratings','rate_one_by_one','user','created_by'] # 'video'
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop("uploaded_images")

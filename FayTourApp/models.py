@@ -14,7 +14,7 @@ class TouristPlaces(models.Model):
     coordinatesY = models.FloatField()
     address = models.CharField(max_length=100)
     originalImage = models.ImageField(upload_to='image')
-    video = models.FileField(upload_to='video',validators=[FileExtensionValidator(allowed_extensions=["mp4"])])
+    # video = models.FileField(upload_to='video',validators=[FileExtensionValidator(allowed_extensions=["mp4"])])
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
     class Meta:
