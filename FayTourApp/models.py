@@ -56,12 +56,12 @@ class Hotel(models.Model):
     def avg_ratings(self):
         avg = RateHotel.objects.filter(hotel=self).aggregate(Avg('stars'))['stars__avg']
         if avg is not None: return avg
-        return 0
+        return 0.0
     
     def totalRooms(self):
         sum = self.Single+self.Double+self.Triple+self.Sweet+self.chalet+self.villa
         if sum !=0: return sum
-        return 'unknown'
+        return 0
 
 class HotelsImages(models.Model):
     hotel = models.ForeignKey(Hotel,on_delete=models.CASCADE,related_name="images")
