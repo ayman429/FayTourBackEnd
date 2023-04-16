@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'dj_rest_auth',
     # 'dj_rest_auth.registration',
+
+    'storages',
     
 ]
 
@@ -106,16 +108,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME': str(os.path.join(BASE_DIR, "db.sqlite3"))
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': str(os.path.join(BASE_DIR, "db.sqlite3"))
         
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME':'faytour',
-        # 'USER':'root',
-        # 'PASSWORD':'',
-        # 'HOST':'localhost',
-        # 'PORT':'3306'
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'faytour',
+        'USER':'root',
+        'PASSWORD':'',
+        'HOST':'localhost',
+        'PORT':'3306'
     }
 }
 
@@ -194,3 +196,13 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'FayTourApp@gmail.com'
 EMAIL_HOST_PASSWORD = 'lkiqdwbmjxugpnps'  # fayoum tour 2023
 EMAIL_PORT = 587
+
+# AWS S3:
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = 'AKIAVV45TGWQOJJVHRE4'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'faytour'
+AWS_QUERYSTRING_AUTH = False
+
+# pip install boto3
+# pip install django-storages
