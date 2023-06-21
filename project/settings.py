@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 
     'User',
     'FayTourApp',
+    # 'AIModel',
     'rest_framework',                # Django rest framework (drf)
     'rest_framework.authtoken',      # Adding token based authentication from drf
     'rest_auth',
@@ -108,16 +109,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        # 'NAME': str(os.path.join(BASE_DIR, "db.sqlite3"))
+        'NAME': str(os.path.join(BASE_DIR, "db.sqlite3"))
         
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME':'faytour',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
-        'PORT':'3306'
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME':'fayoumtour',
+        # 'USER':'root',
+        # 'PASSWORD':'',
+        # 'HOST':'localhost',
+        # 'PORT':'3306'
     }
 }
 
@@ -198,11 +199,17 @@ EMAIL_HOST_PASSWORD = 'lkiqdwbmjxugpnps'  # fayoum tour 2023
 EMAIL_PORT = 587
 
 # AWS S3:
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = 'AKIAVV45TGWQOJJVHRE4'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'faytour'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = 'AKIATWV4RR6OEWESW7G2'
+# AWS_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'faytourimages'
+# AWS_ACCESS_KEY_ID = 'AKIAVV45TGWQOJJVHRE4'
+# AWS_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'faytour'
 AWS_QUERYSTRING_AUTH = False
 
 # pip install boto3
 # pip install django-storages
+
+# ----- AI model ----------
+# MODELS = os.path.join(BASE_DIR, 'ml/models')

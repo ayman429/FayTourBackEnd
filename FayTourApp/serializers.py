@@ -16,7 +16,7 @@ class HotelImagesSerializer(serializers.ModelSerializer):
 class TouristPlacesSerializer(serializers.ModelSerializer):
     images = TourismImagesSerializer(many=True,read_only=True)
     uploaded_images = serializers.ListField(
-        child = serializers.ImageField(max_length=1000000,allow_empty_file=False,use_url=False),
+        child = serializers.ImageField(max_length=1000000,allow_empty_file=False), # use_url=False
         write_only=True
     )
 
@@ -120,3 +120,53 @@ class RateHotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = RateHotel
         fields = '__all__'
+
+# # --------------------------------------------------------
+# class FavoriteSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Favorite
+#         fields = ['id','userId','name','image']
+    
+# --------------------------------------------------------
+class PostImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostImages
+        fields = ['image']
+class PostImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostImages
+        fields = ['image']
+class PostSerializer(serializers.ModelSerializer):
+    images = PostImagesSerializer(many=True,read_only=True)
+    uploaded_images = serializers.ListField(
+        child = serializers.ImageField(max_length=1000000,allow_empty_file=False), # use_url=False
+        write_only=True,
+        required=False
+    )
+
+    created_by = serializers.SerializerMethodField('post_created_by')
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
+
+    class Meta:
+        model = Post
+        fields = ['id','user','body','uploaded_images','images','created_by','created_at','updated_at','current_time']
+
+
+    def create(self, validated_data):
+        uploaded_images = validated_data.pop("uploaded_images",[])
+        post = Post.objects.create(**validated_data)
+
+        for image in uploaded_images:
+            new_image = PostImages.objects.create(post=post, image=image)
+        return post
+
+    def post_created_by(request,self):
+        json = {
+            "id":self.user.id,
+            "userName":self.user.username,
+            "email":self.user.email,
+            "image":self.user.image.url if self.user.image else ""
+            }
+        print(json)
+        return json

@@ -8,6 +8,7 @@ from .managers import CustomUserManager
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=100,unique=True)
     email = models.EmailField(('email address'), unique=True)
+    image = models.ImageField(upload_to='usersImages/',default="")
    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
