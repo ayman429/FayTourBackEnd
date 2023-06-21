@@ -206,7 +206,7 @@ EMAIL_PORT = 587
 # AWS_ACCESS_KEY_ID = 'AKIAVV45TGWQOJJVHRE4'
 # AWS_SECRET_ACCESS_KEY = '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'
 # AWS_STORAGE_BUCKET_NAME = 'faytour'
-AWS_QUERYSTRING_AUTH = False
+# AWS_QUERYSTRING_AUTH = False
 
 # pip install boto3
 # pip install django-storages
