@@ -1,0 +1,11 @@
+{
+    "dev": {
+        "app_function": "project.app",
+        "aws_region": "us-east-1",
+        "profile_name": "default",
+        "project_name": "faytourbackend",
+        "runtime": "python3.10",
+        "s3_bucket": "zappa-eiyi3e998",
+        "manage_roles": false
+    }
+}

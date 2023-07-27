@@ -6,25 +6,23 @@ from django.db.models import Avg
 from django.core.validators import FileExtensionValidator
 import os
 
-from User.models import CustomUser
-
-# -------
+# ------- model
 import pandas as pd
 import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from User.models import CustomUser
 # Create your models here.
 
 class TouristPlaces(models.Model):
     name = models.CharField(max_length=500,unique=True)
     type = models.CharField(max_length=500)
     description = models.TextField(default='')
-    coordinatesX = models.FloatField() 
+    coordinatesX = models.FloatField()
     coordinatesY = models.FloatField()
     address = models.CharField(max_length=100)
-    originalImage = models.ImageField(upload_to='image/%y/%m/%d')
-    # video = models.FileField(upload_to='video',validators=[FileExtensionValidator(allowed_extensions=["mp4"])])
+    originalImage = models.ImageField(upload_to='image')
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
     class Meta:
@@ -37,8 +35,8 @@ class TouristPlaces(models.Model):
     def avg_ratings(self):
         avg = RateTouristPlaces.objects.filter(touristPlaces=self).aggregate(Avg('stars'))['stars__avg']
         if avg is not None: return avg
-        return 0
-        
+        return 0.0
+
     def __str__(self):
         return self.name
 
@@ -54,12 +52,12 @@ class Hotel(models.Model):
     Phone = models.CharField(max_length=500,unique=True)
     web = models.CharField(max_length=500,default='')
     email = models.EmailField(default='')
-    Single = models.IntegerField(default=0)  
-    Double = models.IntegerField(default=0)  
-    Triple = models.IntegerField(default=0)   
-    Sweet  = models.IntegerField(default=0)  
-    chalet = models.IntegerField(default=0)  
-    villa  = models.IntegerField(default=0)  
+    Single = models.IntegerField(default=0)
+    Double = models.IntegerField(default=0)
+    Triple = models.IntegerField(default=0)
+    Sweet  = models.IntegerField(default=0)
+    chalet = models.IntegerField(default=0)
+    villa  = models.IntegerField(default=0)
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     def no_of_ratings(self):
         ratings = RateHotel.objects.filter(hotel=self)
@@ -69,26 +67,25 @@ class Hotel(models.Model):
         avg = RateHotel.objects.filter(hotel=self).aggregate(Avg('stars'))['stars__avg']
         if avg is not None: return avg
         return 0.0
-    
+
     def totalRooms(self):
         sum = self.Single+self.Double+self.Triple+self.Sweet+self.chalet+self.villa
         if sum !=0: return sum
         return 0
 
-class HotelsImages(models.Model):
-    hotel = models.ForeignKey(Hotel,on_delete=models.CASCADE,related_name="images")
-    image = models.ImageField(upload_to="image",blank=True,unique=True)   
-
 class TourismImages(models.Model):
     touristPlaces = models.ForeignKey(TouristPlaces,on_delete=models.CASCADE,related_name="images")
-    image = models.ImageField(upload_to="image",blank=True,unique=True) 
+    image = models.ImageField(upload_to="image",blank=True,unique=True)
+    
+class HotelsImages(models.Model):
+    hotel = models.ForeignKey(Hotel,on_delete=models.CASCADE,related_name="images")
+    image = models.ImageField(upload_to="image",blank=True,unique=True)
 
 class RateTouristPlaces(models.Model):
     touristPlaces = models.ForeignKey(TouristPlaces,on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     stars = models.PositiveSmallIntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
-
-
+    
     class Meta:
         unique_together = (('user', 'touristPlaces'),)
         index_together = (('user', 'touristPlaces'),)
@@ -102,13 +99,32 @@ class RateHotel(models.Model):
         unique_together = (('user', 'hotel'),)
         index_together = (('user', 'hotel'),)
 
+class FavoriteHotel(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel,on_delete=models.CASCADE)
+    fav = models.PositiveSmallIntegerField(validators=[MinValueValidator(0),MaxValueValidator(1)])
+
+    class Meta:
+        unique_together = (('user', 'hotel'),)
+        index_together = (('user', 'hotel'),)
+
+
+class FavoriteTouristPlaces(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    touristPlaces = models.ForeignKey(TouristPlaces,on_delete=models.CASCADE)
+    fav = models.PositiveSmallIntegerField(validators=[MinValueValidator(0),MaxValueValidator(1)])
+
+    class Meta:
+        unique_together = (('user', 'touristPlaces'),)
+        index_together = (('user', 'touristPlaces'),)
+
 # ----------------------------------------------------------
 class Post(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     body=models.TextField(default="")
-    created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True) # default=datetime.now() auto_now_add=True
-    updated_at = models.DateTimeField(auto_now=True,blank=True,null=True) # auto_now=True
-    current_time = timezone.now()
+    created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at = models.DateTimeField(auto_now=True,blank=True,null=True) 
+
     class Meta:
         ordering = ['-created_at']
 
@@ -116,33 +132,56 @@ def get_unique_filename(instance, filename):
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
     filename, ext = os.path.splitext(filename)
     unique_filename = f"{filename}_{timestamp}{ext}"
-    folder = "image"  
+    folder = "image/posts"
     return os.path.join(folder, unique_filename)
 
 class PostImages(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name="images")
-    image = models.ImageField(upload_to=get_unique_filename,blank=True,unique=True,default="") 
+    image = models.ImageField(upload_to=get_unique_filename,blank=True,unique=True,default="")
 
-# # ----------------------------------------------------------
-# class Favorite(models.Model):
-#     userId = models.CharField(max_length=500,unique=True)
-#     name = models.CharField(max_length=500)
-#     image = models.CharField(max_length=1000)
+class LikePost(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    like = models.PositiveSmallIntegerField(validators=[MinValueValidator(0),MaxValueValidator(1)])
+
+    class Meta:
+        unique_together = (('user', 'post'),)
+        index_together = (('user', 'post'),)
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    comment =  models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at = models.DateTimeField(auto_now=True,blank=True,null=True) 
+    current_time = timezone.now()
+
+
+
+# ----------------------------------------------------------
+class HotelReservation(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel,on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=20)
+    adulls = models.PositiveSmallIntegerField()
+    kids = models.PositiveSmallIntegerField()
+    check_in = models.DateField()
+    check_out = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at = models.DateTimeField(auto_now=True,blank=True,null=True)
+
 
 # ---------------------- AI MODEL --------------------
 def get_recommendations(name):
         # Load data from API
-        place_response = 'http://faytourapp.pythonanywhere.com/api/TourismPlace/'
+        place_response = 'https://faytourapp.pythonanywhere.com/api/TourismPlace/'
         place_headers = {
-            'Authorization': 'Token 463b03a1419c5b8908382d397cba4c06a85a5b17'
+            'Authorization': 'Token 9500d4298aba1a2446229d75a0e5794e9209c667'
         }
+
         place_response_obj = requests.get(
             place_response, headers=place_headers)
-        # if place_response_obj.status_code == 200:
         place_data = pd.DataFrame(place_response_obj.json())
-        # else:
-        #     print("Error fetching place data from API: ",
-        # place_response_obj.status_code)
         place_data.drop_duplicates(subset='name', keep='first', inplace=True)
         place_data.dropna(subset=['description', 'type'], inplace=True)
         place_data.reset_index(inplace=True, drop=True)
@@ -152,13 +191,17 @@ def get_recommendations(name):
         similarity_scores = cosine_similarity(
             user_tfidf, place_tfidf).flatten()
         place_data['similarity_score'] = similarity_scores
-        # filter by similarity_score > 0
         place_data = place_data[place_data['similarity_score'] > 0]
         place_data.sort_values(by='similarity_score',
-                               ascending=False, inplace=True)
+                              ascending=False, inplace=True)
         recommendations = place_data
-        # [[ 'name', 'id', 'similarity_score']]
+
         return recommendations
 
 
-    
+
+
+
+
+
+

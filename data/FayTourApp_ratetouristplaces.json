@@ -1,0 +1,110 @@
+[
+    {
+        "id": 56,
+        "stars": 5,
+        "touristPlaces_id": 42,
+        "user_id": 5
+    },
+    {
+        "id": 57,
+        "stars": 5,
+        "touristPlaces_id": 44,
+        "user_id": 5
+    },
+    {
+        "id": 58,
+        "stars": 4,
+        "touristPlaces_id": 44,
+        "user_id": 2
+    },
+    {
+        "id": 59,
+        "stars": 4,
+        "touristPlaces_id": 29,
+        "user_id": 5
+    },
+    {
+        "id": 60,
+        "stars": 4,
+        "touristPlaces_id": 30,
+        "user_id": 5
+    },
+    {
+        "id": 61,
+        "stars": 4,
+        "touristPlaces_id": 31,
+        "user_id": 5
+    },
+    {
+        "id": 62,
+        "stars": 3,
+        "touristPlaces_id": 32,
+        "user_id": 5
+    },
+    {
+        "id": 63,
+        "stars": 4,
+        "touristPlaces_id": 33,
+        "user_id": 5
+    },
+    {
+        "id": 64,
+        "stars": 4,
+        "touristPlaces_id": 34,
+        "user_id": 5
+    },
+    {
+        "id": 65,
+        "stars": 3,
+        "touristPlaces_id": 35,
+        "user_id": 5
+    },
+    {
+        "id": 66,
+        "stars": 4,
+        "touristPlaces_id": 36,
+        "user_id": 5
+    },
+    {
+        "id": 67,
+        "stars": 4,
+        "touristPlaces_id": 37,
+        "user_id": 5
+    },
+    {
+        "id": 68,
+        "stars": 3,
+        "touristPlaces_id": 38,
+        "user_id": 5
+    },
+    {
+        "id": 69,
+        "stars": 4,
+        "touristPlaces_id": 39,
+        "user_id": 5
+    },
+    {
+        "id": 70,
+        "stars": 3,
+        "touristPlaces_id": 40,
+        "user_id": 5
+    },
+    {
+        "id": 71,
+        "stars": 3,
+        "touristPlaces_id": 41,
+        "user_id": 5
+    },
+    {
+        "id": 72,
+        "stars": 4,
+        "touristPlaces_id": 43,
+        "user_id": 5
+    },
+    {
+        "id": 73,
+        "stars": 4,
+        "touristPlaces_id": 45,
+        "user_id": 5
+    }
+]

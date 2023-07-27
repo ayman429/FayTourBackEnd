@@ -15,20 +15,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView
-# from rest_framework.authtoken.views import TokenObtainPairView,
-# from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('User.urls')),
     path('api/', include('FayTourApp.urls')),
-    # path('AI/api/', include('AIModel.urls')),
-
     path('password-reset/', PasswordResetView.as_view()),
     path('password-reset-confirm/<uidb64>/<token>/',
-         PasswordResetConfirmView.as_view(), name='password_reset_confirm'), 
-
-    # path('rest-auth', include('rest_framework.urls')),
-    # path('rest-auth/token/', TokenObtainPairView.as_view()),
-    # path('rest-auth/token/refresh/', TokenRefreshView.as_view()),
+         PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
